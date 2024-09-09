@@ -2,7 +2,6 @@ namespace Sherlog.Server;
 
 public class LogEntryDto
 {
-    public int Id { get; set; }
     public string Tenant { get; set; }
     public List<string> RecipientGroups { get; set; }
     public string LogType { get; set; }

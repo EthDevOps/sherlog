@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Sherlog.Server;
 
@@ -19,6 +20,20 @@ public class LogbookController : ControllerBase
     public async Task<ActionResult> AddLogEntry(LogEntryDto logEntry)
     {
         // Save the entry to database
+        await using LogbookContext db = new LogbookContext();
+
+        var dbEntry = new LogEntry
+        {
+            Tenant = logEntry.Tenant,
+            Project = logEntry.Project,
+            Message = logEntry.Message,
+            LogType = logEntry.LogType,
+            RecipientGroups = string.Join(",", logEntry.RecipientGroups),
+            CreatedAt = DateTime.Now,
+        };
+        db.LogEntries.Add(dbEntry);
+        await db.SaveChangesAsync();
+        
 
         // Get all contacts
         List<Contact> contacts = new();
@@ -53,6 +68,7 @@ public class LogbookController : ControllerBase
             mail.To.Add(contact.Email);
         }
         mail.CC.Add(Program.Configuration.MailFrom); 
+        mail.ReplyToList.Add(Program.Configuration.MailReplyTo); 
         mail.Subject = subject;
         mail.Body = message;
 
@@ -62,9 +78,7 @@ public class LogbookController : ControllerBase
         smtpServer.EnableSsl = true;
 
         smtpServer.Send(mail);
-        
-        
-        return CreatedAtAction(nameof(AddLogEntry), new { id = logEntry.Id }, logEntry);
+        return CreatedAtAction(nameof(AddLogEntry), new { id = dbEntry.LogEntryId }, logEntry);
     }
 
     [HttpGet("get-tenants")]

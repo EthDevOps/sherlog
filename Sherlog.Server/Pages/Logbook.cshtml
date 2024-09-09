@@ -1,0 +1,34 @@
+﻿@page
+@model LogbookModel
+@{
+    ViewData["Title"] = "DevOps Logbook";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>This page shows sent log events:</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Date/Time</th>
+        <th>Tenant</th>
+        <th>Project</th>
+        <th>Type</th>
+        <th>Recipient Groups</th>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var le in Model.LogEntries)
+    {
+        <tr>
+            <td>@le.CreatedAt.ToString("U")</td>
+            <td>@le.Tenant</td>
+            <td>@le.Project</td>
+            <td>@le.LogType</td>
+            <td>@le.RecipientGroups</td>
+            <td>@le.Message</td>
+        </tr>
+    }
+    </tbody>
+</table>
