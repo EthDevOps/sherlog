@@ -32,7 +32,10 @@ jobs:
     
     - name: Build self-contained binary for linux-arm64
       run: dotnet publish -c Release -r linux-arm64 --self-contained true -p:PublishSingleFile=true -o ./publish/linux-arm64
-    
+   
+    - name: Zip the binaries
+      run: zip -r sherlog-cli-bin.zip ./publish
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -84,3 +87,13 @@ jobs:
         asset_path: ./sherlog-cli/publish/linux-arm64/sherlog-cli
         asset_name: sherlog-cli-linux-arm64
         asset_content_type: application/octet-stream
+    
+    - name: Upload Release Asset ZIP
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./sherlog-cli/sherlog-cli-bin.zip
+        asset_name: sherlog-cli-bin.zip
+        asset_content_type: application/zip
