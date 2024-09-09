@@ -149,6 +149,12 @@ class Program
             return -1;
         }
 
+        if (recipients.Count == 0)
+        {
+            Console.WriteLine("No recipients found for tenant. Please set up in NetBox first.");
+            return -1;
+        }
+        
         Console.Write("\n");
         var selectedRecipients = Prompt.MultiSelect("Select stakeholders to be notified on this log entry?", recipients, pageSize: 3).ToList();
         
