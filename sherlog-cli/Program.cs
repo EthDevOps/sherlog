@@ -53,20 +53,18 @@ class Program
     
     private static string ReadFileIgnoringComments(string filePath)
     {
-        StringBuilder contentBuilder = new StringBuilder();
+        StringBuilder contentBuilder = new();
         try
         {
-            using (StreamReader reader = new StreamReader(filePath))
+            using StreamReader reader = new(filePath);
+            string line;
+            while ((line = reader.ReadLine()) != null)
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                // Check if the line starts with '#'
+                if (!line.TrimStart().StartsWith("#"))
                 {
-                    // Check if the line starts with '#'
-                    if (!line.TrimStart().StartsWith("#"))
-                    {
-                        // Process the line as it does not start with '#'
-                        contentBuilder.AppendLine(line);
-                    }
+                    // Process the line as it does not start with '#'
+                    contentBuilder.AppendLine(line);
                 }
             }
         }
@@ -81,8 +79,7 @@ class Program
     static async Task<int> Main(string[] args)
     {
         string sherlogServer = Environment.GetEnvironmentVariable("SHERLOG_SERVER") ?? "http://localhost:5062";
-        Console.WriteLine("==[ Sherlog CLI ]==");
-        Console.WriteLine($"Sherlog Server: {sherlogServer}");
+        Console.WriteLine("\n\n======[ Sherlog CLI ]======\n");
    
         // look for sherlog config
         string tenant;
@@ -90,7 +87,7 @@ class Program
         string? sherlogPath = FindSherlogFile();
   
         // Query for tenants
-        HttpClient hc = new HttpClient();
+        HttpClient hc = new();
         hc.BaseAddress = new Uri(sherlogServer);
 
         List<string> tenants = [];
@@ -168,7 +165,7 @@ class Program
         try
         {
             // Start the editor with the temporary file
-            Process editorProcess = new Process
+            Process editorProcess = new()
             {
                 StartInfo = new ProcessStartInfo
                 {
