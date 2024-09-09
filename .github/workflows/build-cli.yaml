@@ -61,7 +61,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/osx-x64/sherlog-cli
+        asset_path: ./sherlog-cli/publish/osx-x64/sherlog-cli
         asset_name: sherlog-cli-osx-x64
         asset_content_type: application/octet-stream
     
@@ -71,7 +71,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/linux-x64/sherlog-cli
+        asset_path: ./sherlog-cli/publish/linux-x64/sherlog-cli
         asset_name: sherlog-cli-linux-x64
         asset_content_type: application/octet-stream
     
@@ -81,6 +81,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./publish/linux-arm64/sherlog-cli
+        asset_path: ./sherlog-cli/publish/linux-arm64/sherlog-cli
         asset_name: sherlog-cli-linux-arm64
         asset_content_type: application/octet-stream
