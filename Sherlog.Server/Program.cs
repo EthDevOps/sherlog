@@ -63,6 +63,7 @@ public class LogbookContext
    public LogbookContext()
    {
        DbPath = Path.Combine(Environment.GetEnvironmentVariable("DB_PATH") ?? ".","sherlog.db");
+       Console.WriteLine($"DB file path: {DbPath}");
    } 
    
    protected override void OnConfiguring(DbContextOptionsBuilder options)
