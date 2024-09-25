@@ -7,7 +7,7 @@
 
 <p>This page shows sent log events:</p>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
     <tr>
         <th>Date/Time</th>
@@ -26,8 +26,16 @@
             <td>@le.Tenant</td>
             <td>@le.Project</td>
             <td>@le.LogType</td>
-            <td>@le.RecipientGroups</td>
-            <td>@le.Message</td>
+            <td>
+                <ul>
+                    @foreach (string r in le.RecipientGroups.Split(','))
+                    {
+                        <li>@r</li>
+                    }
+                </ul>
+                
+            </td>
+            <td style="white-space: pre-line;">@le.Message</td>
         </tr>
     }
     </tbody>
